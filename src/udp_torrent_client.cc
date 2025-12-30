@@ -261,9 +261,13 @@ std::optional<Udp_torrent_client::Announce_reply> Udp_torrent_client::extract_an
 			}
 		}
 
-		assert(!peer_urls_ret.isEmpty());
 		return peer_urls_ret;
 	}();
+
+	if(peer_urls.empty()) {
+		qDebug() << "A tracker sent announce reply without any peers";
+		return {};
+	}
 
 	return Announce_reply{std::move(peer_urls), interval_time, leecher_cnt, seed_cnt};
 }
