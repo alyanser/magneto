@@ -36,32 +36,18 @@ set(MOC_INCLUDES
          src/resources.qrc
 )
 
-include(FetchContent)
-
-Set(FETCHCONTENT_QUIET FALSE)
-
-FetchContent_Declare(
-         bencode-parser
-         GIT_REPOSITORY "https://github.com/alyanser/bencode-parser.git"
-         GIT_TAG "2a46234921892899d571b9c002cdea99b28d38f1"
-         GIT_SHALLOW TRUE
-         GIT_PROGRESS TRUE
-)
-
-FetchContent_MakeAvailable(bencode-parser)
-
 set(CMAKE_AUTOMOC on)
 set(CMAKE_AUTORCC on)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${MOC_INCLUDES})
 
-if (CMAKE_BUILD_TYPE STREQUAL "release")
+if(CMAKE_BUILD_TYPE STREQUAL "release")
          add_compile_definitions(QT_NO_DEBUG_OUTPUT)
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
          "include"
-         "${bencode-parser_SOURCE_DIR}/include"
+         "bencode-parser/include"
 )
 
 find_package(Qt6 COMPONENTS Network Widgets REQUIRED)
