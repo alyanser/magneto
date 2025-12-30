@@ -17,7 +17,7 @@
 Main_window::Main_window() {
 	setWindowTitle("Magneto");
 	setCentralWidget(&scroll_area_);
-	addToolBar(&tool_bar_);
+	addToolBar(Qt::LeftToolBarArea, &tool_bar_);
 	setMinimumSize({640, 480});
 	assert(menuBar());
 	menuBar()->addMenu(&file_menu_);
@@ -30,6 +30,9 @@ Main_window::Main_window() {
 	assert(scroll_area_widget_.layout());
 	scroll_area_.setWidget(&scroll_area_widget_);
 	scroll_area_.setWidgetResizable(true);
+
+	tool_bar_.setMovable(false);
+	tool_bar_.setFloatable(false);
 
 	connect(&network_manager_, &Network_manager::new_download_requested, this, &Main_window::initiate_download<bencode::Metadata>);
 }
