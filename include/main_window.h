@@ -53,4 +53,5 @@ private:
 	QMenu file_menu_{"File", menuBar()};
 	Network_manager network_manager_;
 	File_allocator file_manager_;
+	bool vpn_enabled_{true};
 };

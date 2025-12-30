@@ -86,6 +86,7 @@ void Main_window::read_settings() noexcept {
 void Main_window::add_top_actions() noexcept {
 	auto * const magnet_action = tool_bar_.addAction("Torrent (magnet)");
 	auto * const torrent_action = tool_bar_.addAction("Torrent (file)");
+	auto * const vpn_action = tool_bar_.addAction("Disable VPN");
 	auto * const url_action = tool_bar_.addAction("Custom url");
 	auto * const exit_action = new QAction("Exit", &file_menu_);
 
@@ -93,11 +94,13 @@ void Main_window::add_top_actions() noexcept {
 
 	file_menu_.addAction(magnet_action);
 	file_menu_.addAction(torrent_action);
+	file_menu_.addAction(vpn_action);
 	file_menu_.addAction(url_action);
 	file_menu_.addAction(exit_action);
 
 	magnet_action->setToolTip("Download a torrent using magnet url");
 	torrent_action->setToolTip("Download a torrent using .torrent file");
+	vpn_action->setToolTip("Enable/Disable the use of VPN");
 	url_action->setToolTip("Download a file from custom url");
 	exit_action->setToolTip("Exit Magneto");
 
@@ -163,6 +166,11 @@ void Main_window::add_top_actions() noexcept {
 		});
 
 		magnet_dialog.exec();
+	});
+
+	connect(vpn_action, &QAction::triggered, this, [this, vpn_action] {
+		vpn_enabled_ = !vpn_enabled_;
+		vpn_enabled_ ? vpn_action->setText("Disable VPN") : vpn_action->setText("Enable VPN");
 	});
 }
 
