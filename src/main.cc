@@ -10,7 +10,7 @@ int main(int argc, char ** argv) {
 	QApplication::setApplicationName("Magneto");
 	QApplication::setWindowIcon(QIcon(":app_icon.png"));
 
-	if(QFile stylesheet(":app_stylesheet.qss"); stylesheet.open(QFile::ReadOnly)) {
+	if(QFile stylesheet(":stylesheet.qss"); stylesheet.open(QFile::ReadOnly)) {
 		Magneto.setStyleSheet(stylesheet.readAll());
 	}
 
