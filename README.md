@@ -9,16 +9,6 @@ cmake -B build -S .
 cmake --build build
 </pre>
 
-<b>Planned updates:</b>
-<pre>
-<strike>Support for magnet links</strike> - Added
-<strike>Support for extension protocol</strike> - Added
-Support for TCP trackers
-Ability to choose which files to target first / file priorities
-Making the visuals less ugly
-Migrate to QML (?)
-</pre>
-
 <b>Preview:</b><br>
 <p align="center">
   <img src="https://imgur.com/oFhBSzk.png"><br><br>
