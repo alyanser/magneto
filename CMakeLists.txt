@@ -47,7 +47,7 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
          "include"
-         "bencode-parser/include"
+         "bencode_parser/include"
 )
 
 find_package(Qt6 COMPONENTS Network Widgets REQUIRED)
