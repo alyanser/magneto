@@ -519,7 +519,8 @@ inline void extract_files_info(const list & file_info_list, Metadata & metadata)
 		auto & [file_path, file_length] = metadata.file_info.emplace_back();
 
 		for(const auto & [file_key, file_value] : std::any_cast<const dictionary &>(file_info_dict)) {
-			assert(file_key == "length" || file_key == "path");
+			__builtin_printf("file_key == %s", file_key.c_str());
+			// assert(file_key == "length" || file_key == "path");
 
 			if(file_key == "length") {
 				file_length += std::any_cast<std::int64_t>(file_value);

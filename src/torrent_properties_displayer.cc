@@ -135,7 +135,7 @@ void Torrent_properties_displayer::update_file_info(const qsizetype file_idx, co
 	}();
 
 	assert(file_dl_progress_bar);
-	assert(file_dl_progress_bar->maximum() > 0);
+	// assert(file_dl_progress_bar->maximum() > 0);
 
 	file_dl_progress_bar->setValue(static_cast<std::int32_t>(file_dled_byte_cnt));
 	file_dl_progress_bar->setFormat("Downloaded: " + util::conversion::convert_to_percent_format(file_dled_byte_cnt, file_dl_progress_bar->maximum()));

@@ -90,3 +90,11 @@ constexpr std::pair<double, std::string_view> stringify_bytes(const byte_type by
 } // namespace conversion
 
 } // namespace util
+
+inline bool vpn_enabled = false;
+
+inline std::string_view get_protonvpn_ip_addr() {
+	assert(vpn_enabled);
+	// will be updated with subscriptions are used, use this for testing purposes
+	return "185.159.159.140";
+}

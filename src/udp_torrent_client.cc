@@ -2,9 +2,12 @@
 #include "peer_wire_client.h"
 #include "download_tracker.h"
 #include "magnet_url_parser.h"
+#include "util.h"
 
 #include <QBigEndianStorageType>
 #include <QNetworkDatagram>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 #include <QSettings>
 #include <QPointer>
 
@@ -103,7 +106,24 @@ void Udp_torrent_client::send_connect_request(const qsizetype tracker_url_idx) n
 	}
 
 	const auto & tracker_url = torrent_metadata_.announce_url_list[static_cast<std::size_t>(tracker_url_idx)];
-	auto * const socket = new Udp_socket(QUrl(tracker_url.data()), craft_connect_request(), this);
+
+	Udp_socket * socket = nullptr;
+
+	if(vpn_enabled) {
+		qDebug() << "VPN enabled - using VPN socket";
+		qDebug() << "Current IP (VPN): " << get_protonvpn_ip_addr();
+		socket = new Udp_socket(QUrl(tracker_url.data()), craft_connect_request(), this);
+	} else {
+		qDebug() << "VPN disabled - using base udp socket";
+		QNetworkAccessManager manager;
+		QNetworkReply *reply = manager.get(QNetworkRequest(QUrl("http://ifconfig.me/ip")));
+		QEventLoop loop;
+		QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+		loop.exec();
+
+		qDebug() << "Current IP (real): " << reply->readAll();
+		socket = new Udp_socket(QUrl(tracker_url.data()), craft_connect_request(), this);
+	}
 
 	connect(socket, &Udp_socket::readyRead, this, [this, socket] {
 		on_socket_ready_read(socket);

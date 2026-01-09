@@ -67,7 +67,7 @@ void Main_window::write_settings() const noexcept {
 	settings.beginGroup("main_window");
 	settings.setValue("size", size());
 	settings.setValue("pos", pos());
-	settings.setValue("vpn_enabled", vpn_enabled_);
+	settings.setValue("vpn_enabled", vpn_enabled);
 }
 
 void Main_window::read_settings() noexcept {
@@ -83,8 +83,8 @@ void Main_window::read_settings() noexcept {
 	}
 
 	if(settings.contains("vpn_enabled")) {
-		vpn_enabled_ = settings.value("vpn_enabled").toBool();
-		tool_bar_.actions().at(2)->setText(vpn_enabled_ ? "Disable VPN" : "Enable VPN");
+		vpn_enabled = settings.value("vpn_enabled").toBool();
+		tool_bar_.actions().at(2)->setText(vpn_enabled ? "Disable VPN" : "Enable VPN");
 	}
 
 	QTimer::singleShot(0, this, [this] {
@@ -179,7 +179,7 @@ void Main_window::add_top_actions() noexcept {
 	});
 
 	connect(vpn_action, &QAction::triggered, this, [this, vpn_action] {
-		vpn_enabled_ = !vpn_enabled_;
+		vpn_enabled = !vpn_enabled;
 
 		auto * loading_dialog = new QProgressDialog("Magneto - VPN", nullptr, 0, 0, this);
 
@@ -189,7 +189,7 @@ void Main_window::add_top_actions() noexcept {
 		loading_dialog->setAutoClose(true);
 		loading_dialog->setAutoReset(true);
 		loading_dialog->setMinimumDuration(0);
-		loading_dialog->setLabelText(vpn_enabled_ ? "Enabling VPN..." : "Disabling VPN...");
+		loading_dialog->setLabelText(vpn_enabled ? "Enabling VPN..." : "Disabling VPN...");
 
 		loading_dialog->show();
 
@@ -198,8 +198,8 @@ void Main_window::add_top_actions() noexcept {
 
 		QTimer::singleShot(3000, loading_dialog, [this, loading_dialog, vpn_action]() {
 			loading_dialog->cancel();
-			tray_.showMessage("Magneto - VPN status changed", vpn_enabled_ ? "VPN has been enabled" : "VPN has been disabled");
-			vpn_enabled_ ? vpn_action->setText("Disable VPN") : vpn_action->setText("Enable VPN");
+			tray_.showMessage("Magneto - VPN status changed", vpn_enabled ? "VPN has been enabled" : "VPN has been disabled");
+			vpn_enabled ? vpn_action->setText("Disable VPN") : vpn_action->setText("Enable VPN");
 			loading_dialog->deleteLater();
 		});
 	});
